@@ -17,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
         movement.y = Input.GetAxisRaw("Vertical") * moveSpeed;
 
-        animator.SetFloat("Speed", Mathf.Abs(movement.x + movement.y));
+        animator.SetFloat("Speed", Mathf.Abs(movement.x) + Mathf.Abs(movement.y));
 
         if (Input.GetAxisRaw("Horizontal") < 0)
         {
