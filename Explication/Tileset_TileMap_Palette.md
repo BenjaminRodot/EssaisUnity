@@ -15,7 +15,7 @@ DragAndDrop du fichier **PSD** dans Asset (ou autre dossier créé préalablemen
 - Filter Mode : **Point** (dans le cas d'un pixel art)
 - Compression : **None**
 
-On peut maintenant ouvrir le tileset, et faire un slice automatique avec **Grid By Cell Size**.
+On peut maintenant ouvrir le **sprite editor**, et faire un slice automatique avec **Grid By Cell Size**.
 
 Puis créer la tilemap dans la hiérarchie  de la scène (Clic droit &#8594; 2D Object &#8594; Tilemap).
 
