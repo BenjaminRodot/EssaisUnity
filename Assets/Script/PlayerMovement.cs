@@ -12,6 +12,12 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 movement;
 
+    private void Start()
+    {
+        GameObject castingBar = GameObject.Find("CastingBar");
+        castingBar.SetActive(false);
+    }
+
     void Update()
     {
         movement.x = Input.GetAxisRaw("Horizontal") * moveSpeed;
