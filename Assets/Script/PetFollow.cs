@@ -11,13 +11,12 @@ public class PetFollow : MonoBehaviour
 
     private Transform target;
 
-    private void Start()
-    {
-        target = GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<Transform>();
-    }
-
     private void Update()
     {
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        }
         if (Vector2.Distance(this.transform.position, target.position) > distanceMax)
         {
             Vector2 vector2 = target.position - transform.position;

@@ -1,21 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class InteractableObject : CollidableObject
 {
-    public Transform UI_text;
     public float timeInteract;
+    public Slider slider;
+    public GameObject castingBar;
+    public Item itemDrop;
 
     private bool z_Interacted = false;
     private float timeLeft;
-    public Slider slider;
-    public GameObject castingBar;
-    private float progress;
-    private float rate;
+    private float playerSpeed;
 
     private void FixedUpdate()
     {
@@ -27,14 +22,15 @@ public class InteractableObject : CollidableObject
             {
                 timeLeft -=Time.deltaTime;
                 slider.value = (1-timeLeft/timeInteract)*100;
+                PlayerMovement.instance.moveSpeed = 0f;
             }
             else
             {
                 this.gameObject.SetActive(false);
-                Debug.Log("INTERACT WITH " + name);
-                UI_text.GetComponent<TMPro.TextMeshProUGUI>().text = (int.Parse(UI_text.GetComponent<TMPro.TextMeshProUGUI>().text) + 1).ToString();
                 slider.value = 0;
                 castingBar.SetActive(false);
+                Inventory.instance.Add(itemDrop);
+                PlayerMovement.instance.moveSpeed = playerSpeed;
 
             }
         }
@@ -56,6 +52,7 @@ public class InteractableObject : CollidableObject
             slider.value = 0f;
             timeLeft = timeInteract;
             z_Interacted = true;
+            playerSpeed = PlayerMovement.instance.moveSpeed;
         }
     }
 }
