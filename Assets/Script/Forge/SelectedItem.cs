@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class SelectedItem : MonoBehaviour
 {
@@ -22,14 +23,17 @@ public class SelectedItem : MonoBehaviour
 
     public Item itemSelected;
     public GameObject itemToClone;
-    public List<GameObject> itemsDroped;
+    public List<GameObject> mineralsDropedGameObject;
+    public List<Mineral> mineralsDroped;
 
     private Camera mainCamera;
     private Vector3 mousePos;
+    private InventoryManager inventoryManager;
 
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        inventoryManager = GameObject.FindObjectOfType<InventoryManager>();
     }
     public void SpawnItem(Item item)
     {
@@ -37,15 +41,19 @@ public class SelectedItem : MonoBehaviour
         mousePos.z = 0;
         itemToClone.GetComponent<SpriteRenderer>().sprite = item.image;
         GameObject itemDroped = Instantiate(itemToClone, mousePos, Quaternion.identity);
-        itemsDroped.Add(itemDroped);
+        mineralsDropedGameObject.Add(itemDroped);
+        mineralsDroped.Add((Mineral)item);
     }
 
     public void CleanDroppedItem()
     {
-        foreach (var item in itemsDroped)
+        for(int i = 0; i < mineralsDropedGameObject.Count; i++)
         {
-            Destroy(item);
+            Inventory.instance.Add(mineralsDroped[i]);
+            Destroy(mineralsDropedGameObject[i]);
         }
-        itemsDroped.Clear();
+        mineralsDropedGameObject.Clear();
+        mineralsDroped.Clear();
+        inventoryManager.UpdateInventoryUI();
     }
 }

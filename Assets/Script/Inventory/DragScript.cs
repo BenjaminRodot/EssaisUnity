@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class DragScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
-
-    //[SerializeField] private Canvas canvas;
-    //private RectTransform rec;
-    //private CanvasGroup canvasGroup;
-    //public Item item;
     [Header("UI")]
     public Image image;
     public TextMeshProUGUI countText;

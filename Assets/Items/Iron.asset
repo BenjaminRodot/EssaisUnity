@@ -15,4 +15,8 @@ MonoBehaviour:
   value: 4
   image: {fileID: 1750932335, guid: 7284c1b7429a6b24d8f441c7446be767, type: 3}
   maxStack: 99
-  moltentemperature: 500
+  durabilityModifier: 1
+  damageModifier: 1
+  priceModifier: 1
+  enchantModifier: 0
+  moltentemperaturee: 6000

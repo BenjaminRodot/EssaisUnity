@@ -5,18 +5,20 @@ using UnityEngine.UIElements;
 public class DropZone : MonoBehaviour, IDropHandler
 {
     public void OnDrop(PointerEventData eventData)
-    {
-        //Debug.Log("Zone");
-        if(transform.childCount == 0)
+    {        
+        DragScript dragScript = eventData.pointerDrag.GetComponent<DragScript>();
+        Item itemDroped = dragScript.item;
+        SelectedItem.instance.SpawnItem(itemDroped);
+        Inventory.instance.items.Remove(dragScript.item);
+        if (dragScript.count > 1)
         {
-            DragScript dragScript = eventData.pointerDrag.GetComponent<DragScript>();
-            dragScript.parentAfterDrag = transform;
+            dragScript.count--;
+            dragScript.RefreshCount();
         }
-        /*
-        if(eventData.pointerDrag != null)
+        else
         {
-            //eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition = GetComponent<RectTransform>().anchoredPosition;
-            SelectedItem.instance.SpawnItem(SelectedItem.instance.itemSelected);
-        }*/
+            Destroy(dragScript.gameObject);
+        }
+        
     }
 }

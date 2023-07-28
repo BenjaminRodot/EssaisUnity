@@ -78,7 +78,7 @@ public class InventoryManager : MonoBehaviour
         dragScript.InitialiseItem(item);
     }
 
-    void UpdateInventoryUI()
+    public void UpdateInventoryUI()
     {        
         foreach(Item item in inventory.items)
         {
