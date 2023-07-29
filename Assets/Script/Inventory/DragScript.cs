@@ -13,35 +13,6 @@ public class DragScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
 
-    /*
-    private void Awake() 
-    {
-        rec = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
-    }   
-
-    void IBeginDragHandler.OnBeginDrag(PointerEventData eventData)
-    {
-        //Debug.Log("OnBeginDrag");
-        canvasGroup.alpha = 0.6f;
-        canvasGroup.blocksRaycasts = false;
-    }
-
-    void IDragHandler.OnDrag(PointerEventData eventData)
-    {
-        //Debug.Log("OnDrag");
-        rec.anchoredPosition += eventData.delta / canvas.scaleFactor;
-    }
-
-    void IEndDragHandler.OnEndDrag(PointerEventData eventData)
-    {
-        SelectedItem.instance.itemSelected = null;
-        //Debug.Log("OnEndDrag");
-        SelectedItem.instance.itemSelected = null;
-        canvasGroup.alpha = 1;
-        canvasGroup.blocksRaycasts = true;
-    }*/
-
     public void InitialiseItem(Item newItem)
     {
         item = newItem;

@@ -79,14 +79,14 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void UpdateInventoryUI()
-    {        
-        foreach(Item item in inventory.items)
+    {
+        foreach (Item item in inventory.items)
         {
             AddItem(item);
         }
     }
 
-    void CleanInventoryUI()
+    public void CleanInventoryUI()
     {
         foreach (InventorySlot slot in inventorySlots)
         {

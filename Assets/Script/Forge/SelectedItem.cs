@@ -54,6 +54,7 @@ public class SelectedItem : MonoBehaviour
         }
         mineralsDropedGameObject.Clear();
         mineralsDroped.Clear();
+        inventoryManager.CleanInventoryUI();
         inventoryManager.UpdateInventoryUI();
     }
 }
