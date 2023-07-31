@@ -5,13 +5,11 @@ using UnityEngine;
 
 public class MoldSelect : MonoBehaviour
 {
+    [SerializeField] MoldController moldController;
     [SerializeField] Mold mold;
-    [SerializeField] TextMeshProUGUI moldSelectedText;
-    [SerializeField] TextMeshProUGUI mineralNeededText;
 
     public void SelectMold()
     {
-        ForgeMiniGameMolten.instance.SetMold(mold);
-        moldSelectedText.text = "Mold : " + mold.name;
+        moldController.SetMold(mold);
     }
 }

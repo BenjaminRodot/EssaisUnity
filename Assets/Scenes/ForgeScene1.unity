@@ -648,6 +648,9 @@ GameObject:
   - component: {fileID: 335953770}
   - component: {fileID: 335953769}
   - component: {fileID: 335953771}
+  - component: {fileID: 335953774}
+  - component: {fileID: 335953773}
+  - component: {fileID: 335953772}
   m_Layer: 0
   m_Name: ForgeControl
   m_TagString: Untagged
@@ -698,13 +701,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80b07d9647424d445b63d511264a0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerBar: {fileID: 1380864003}
+  timerBarController: {fileID: 335953774}
+  temperatureBarController: {fileID: 335953773}
+  moldController: {fileID: 335953772}
   burnButton: {fileID: 1849763172}
-  temperatureGame: {fileID: 2039753217}
+--- !u!114 &335953772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335953768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fbbbd585373de4409e2636ef3448d3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgeMiniGameMolten: {fileID: 335953771}
+  burnButton: {fileID: 1849763172}
+  moldSelectedText: {fileID: 960823056}
+  mineralNeededText: {fileID: 1538562188}
+--- !u!114 &335953773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335953768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efab6e0cfacd9354a9875c17448c64d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgeMiniGameMolten: {fileID: 335953771}
   temperatureBar: {fileID: 1256086741}
   maxTemperatureFurnace: 10000
   minTemperatureFurnace: 0
-  temperatureAreaRange: 100
+  temperatureAreaRange: 50
+--- !u!114 &335953774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335953768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec97246c145e66f4a9f67056854648cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forgeMiniGameMolten: {fileID: 335953771}
+  timerBar: {fileID: 1380864003}
+  timerSlider: {fileID: 1645981527}
+  timeInteract: 5
 --- !u!1 &385684879
 GameObject:
   m_ObjectHideFlags: 0
@@ -1485,7 +1534,7 @@ GameObject:
   - component: {fileID: 675689507}
   - component: {fileID: 675689506}
   m_Layer: 5
-  m_Name: Clear button (1)
+  m_Name: SelectMold0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1523,9 +1572,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b1e7cf7a4e2a54fbfdcf22660f7942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moldController: {fileID: 335953772}
   mold: {fileID: 11400000, guid: f1307c383346afe468f26dd625132ab9, type: 2}
-  moldSelectedText: {fileID: 960823056}
-  mineralNeededText: {fileID: 0}
 --- !u!114 &675689507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2002,7 +2050,7 @@ GameObject:
   - component: {fileID: 923787921}
   - component: {fileID: 923787920}
   m_Layer: 5
-  m_Name: Clear button (2)
+  m_Name: SelectMold1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2040,9 +2088,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52b1e7cf7a4e2a54fbfdcf22660f7942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moldController: {fileID: 335953772}
   mold: {fileID: 11400000, guid: cb9450375c68dfc44a8f9b83f352d077, type: 2}
-  moldSelectedText: {fileID: 960823056}
-  mineralNeededText: {fileID: 0}
 --- !u!114 &923787921
 MonoBehaviour:
   m_ObjectHideFlags: 0
