@@ -28,12 +28,12 @@ public class SelectedItem : MonoBehaviour
 
     private Camera mainCamera;
     private Vector3 mousePos;
-    private InventoryManager inventoryManager;
+    private InventoryManagerForge inventoryManagerForge;
 
     private void Start()
     {
         mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        inventoryManager = GameObject.FindObjectOfType<InventoryManager>();
+        inventoryManagerForge = GameObject.FindObjectOfType<InventoryManagerForge>();
     }
     public void SpawnItem(Item item)
     {
@@ -45,16 +45,25 @@ public class SelectedItem : MonoBehaviour
         mineralsDroped.Add((Mineral)item);
     }
 
-    public void CleanDroppedItem()
+    public void RetakeDroppedItem()
     {
         for(int i = 0; i < mineralsDropedGameObject.Count; i++)
         {
             Inventory.instance.Add(mineralsDroped[i]);
+            inventoryManagerForge.AddItem(mineralsDroped[i]);
             Destroy(mineralsDropedGameObject[i]);
         }
         mineralsDropedGameObject.Clear();
         mineralsDroped.Clear();
-        inventoryManager.CleanInventoryUI();
-        inventoryManager.UpdateInventoryUI();
+    }
+
+    public void LoseDroppedItem()
+    {
+        for (int i = 0; i < mineralsDropedGameObject.Count; i++)
+        {
+            Destroy(mineralsDropedGameObject[i]);
+        }
+        mineralsDropedGameObject.Clear();
+        mineralsDroped.Clear();
     }
 }

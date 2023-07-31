@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
@@ -27,8 +28,8 @@ public class ForgeMiniGameMolten : MonoBehaviour
     private float maxTemperatureAreaPosX = 425f;
 
     // Timer
-    public GameObject timerBar;
-    public float timeInteract = 2f;
+    [SerializeField] private GameObject timerBar;
+    private float timeInteract = 2f;
 
     private List<Mineral> mineralsToMolten;
     private bool isMoltRunning = false;
@@ -46,11 +47,12 @@ public class ForgeMiniGameMolten : MonoBehaviour
     private Color color4 = new Color(0, 255, 255);
 
     // Temperaturee object
-    public GameObject temperatureGame;
-    public GameObject temperatureBar;
-    public float maxTemperatureFurnace = 10000;
-    public float minTemperatureFurnace = 0;
-    public float temperatureAreaRange = 2;
+    [SerializeField] private Button burnButton;
+    [SerializeField] private GameObject temperatureGame;
+    [SerializeField] private GameObject temperatureBar;
+    [SerializeField] private float maxTemperatureFurnace = 10000;
+    [SerializeField] private float minTemperatureFurnace = 0;
+    [SerializeField] private float temperatureAreaRange = 2;
 
     private Slider temperatureSlider;
     private Transform temperatureArea;
@@ -66,43 +68,60 @@ public class ForgeMiniGameMolten : MonoBehaviour
     private int scoreMax = 1;
     private bool beginningScoring = false;
 
+    // Mold
+    private Mold mold;
+    private TextMeshProUGUI mineralNeededText;
+
     public void Start()
     {
         temperatureSlider = temperatureBar.transform.Find("Slide").GetComponent<Slider>();
         temperatureArea = temperatureBar.transform.Find("TemperatureArea");
+
         temperatureGame.SetActive(false);
+        burnButton.interactable = false;
     }
-    public void OnButtonClick()
+    public void StartBurn()
     {
-        temperatureGame.SetActive(true);
-        isMoltRunning = true;
-        beginningScoring = false;
-        timeLeft = timeInteract;
+        //===============\\
+        //  Find Object  \\
+        //===============\\
         timerSlider = timerBar.transform.Find("Slide").GetComponent<Slider>();
         temperatureSlider = temperatureBar.transform.Find("Slide").GetComponent<Slider>();
-        mineralsToMolten = SelectedItem.instance.mineralsDroped;
-        temperatureArea.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(temperatureAreaRange, 100);
+        temperatureArea.gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(temperatureAreaRange, 80);
         temperatureArea.gameObject.GetComponent<BoxCollider2D>().size = temperatureArea.gameObject.GetComponent<RectTransform>().sizeDelta;
 
-        temperatureToMeltPercent = (GetMoltenTemperatureAverage(mineralsToMolten) - minTemperatureFurnace) / (maxTemperatureFurnace - minTemperatureFurnace);
+        //========================\\
+        //  Instanciate variable  \\
+        //========================\\
+        beginningScoring = false;
+        timeLeft = timeInteract;
+
+        temperatureGame.SetActive(true);
+        isMoltRunning = true;
+        mineralsToMolten = SelectedItem.instance.mineralsDroped;
+        temperatureToMeltPercent = (GetMoltenTemperature(mineralsToMolten) - minTemperatureFurnace) / (maxTemperatureFurnace - minTemperatureFurnace);
         temperatureAreaPosX = (temperatureToMeltPercent * (maxTemperatureAreaPosX - minTemperatureAreaPosX));
         
         var pos = temperatureArea.transform.localPosition;
-        pos.x = temperatureAreaPosX -225; //size temperatureBar /2
+        pos.x = temperatureAreaPosX - 225; //size temperatureBar/2
         temperatureArea.transform.localPosition = pos;
-
-        float areaInPercent = temperatureAreaRange / (maxTemperatureAreaPosX - minTemperatureAreaPosX);
-
-        //Debug.Log("temperatureToMeltPercent : " + temperatureToMeltPercent +"%");
-        //Debug.Log("areaPercent : " + (temperatureAreaRange / (maxTemperatureAreaPosX - minTemperatureAreaPosX)) + "%");
-        //Debug.Log("areaPercentMin : " + (temperatureToMeltPercent - areaInPercent / 2) + "%");
-        //Debug.Log("areaPercentMax : " + (temperatureToMeltPercent + areaInPercent / 2) + "%");
     }
 
     private void Update()
     {
-        Maintaintemperature();
-        
+        if(mold!=null)
+        {
+            mineralNeededText.text = "Mineral needed : " + (mold.nbMineralsNeeded - SelectedItem.instance.mineralsDroped.Count);
+            if(mold.nbMineralsNeeded <= SelectedItem.instance.mineralsDroped.Count)
+            {
+                burnButton.interactable = true; 
+            }
+           
+        }
+        else
+        {
+            burnButton.interactable = false;
+        }
         if (isMoltRunning)
         {
             timerBar.SetActive(true);
@@ -110,20 +129,17 @@ public class ForgeMiniGameMolten : MonoBehaviour
 
             if (timeLeft > 0)
             {
+                Maintaintemperature();
+                isTemperatureInArea();
                 timeLeft -= Time.deltaTime;
                 timerSlider.value = (1 - timeLeft / timeInteract) * 100;
-                if (isTemperatureInArea())
-                {
-                    currentScore++;
-                    //Debug.Log("Dedans");
-                }
-                else
-                {
-                    //Debug.Log("Pas dedans");
-                }
                 if(beginningScoring)
                 {
                     scoreMax++;
+                    if (temperatureArea.GetComponent<CollisionScript>().IsCollided)
+                    {
+                        currentScore++;
+                    }
                 }
                 
             }
@@ -145,27 +161,32 @@ public class ForgeMiniGameMolten : MonoBehaviour
         }
     }
 
-    private int GetMoltenTemperatureAverage(List<Mineral> minerals)
+    private int GetMoltenTemperature(List<Mineral> minerals)
     {
-        int averageTemperature = 0;
+        int maxTemperature = 0;
         foreach(Mineral mineral in minerals)
         {
-            averageTemperature += mineral.moltentemperaturee;
+            if(maxTemperature < mineral.moltentemperaturee)
+            {
+                maxTemperature = mineral.moltentemperaturee;
+            }
         }
-
-        return averageTemperature/ minerals.Count;
+        return maxTemperature;
     }
 
     private bool isTemperatureInArea()
     {
-        beginningScoring = temperatureArea.GetComponent<CollisionScript>().IsCollided;
+        if(!beginningScoring)
+        {
+            beginningScoring = temperatureArea.GetComponent<CollisionScript>().IsCollided;
+        }
         return beginningScoring;
     }
 
     private void MolteMinerals()
     {
         MoltenLiquid moltenLiquid = new MoltenLiquid(mineralsToMolten);
-        SelectedItem.instance.CleanDroppedItem();
+        SelectedItem.instance.LoseDroppedItem();
         //Debug.Log(moltenLiquid.ToString());
     }
 
@@ -198,7 +219,10 @@ public class ForgeMiniGameMolten : MonoBehaviour
         {
             temperatureHeatingVelocity = 0f;
         }
-        //Debug.Log(temperatureHeatingVelocity);
     }
 
+    public void SetMold(Mold mold)
+    {
+        this.mold = mold;
+    }
 }

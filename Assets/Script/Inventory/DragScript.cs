@@ -10,7 +10,7 @@ public class DragScript : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDr
     public TextMeshProUGUI countText;
 
     [HideInInspector] public Item item;
-    [HideInInspector] public int count = 1;
+     public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
 
     public void InitialiseItem(Item newItem)
