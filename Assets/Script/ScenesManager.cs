@@ -16,14 +16,15 @@ public class ScenesManager : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     #endregion
 
     public enum Scene
     {
         Scene1,
-        ForgeScene1
+        ForgeScene1,
+        PourringScene
     }
 
     public void LoadScene(Scene scene)

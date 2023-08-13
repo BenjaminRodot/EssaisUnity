@@ -17,7 +17,7 @@ public class SelectedItem : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     #endregion
 

@@ -4,10 +4,12 @@ using UnityEngine;
 [System.Serializable]
 public class MoltenLiquid
 {
-    public int durabilityModifier;
-    public int damageModifier;
-    public int priceModifier;
-    public int enchantModifier;
+    private int durabilityModifier;
+    private int damageModifier;
+    private int priceModifier;
+    private int enchantModifier;
+
+    private Color color;
 
     public override string ToString()
     {
@@ -17,12 +19,13 @@ public class MoltenLiquid
                 "enchantModifier = " + enchantModifier + "\n";
     }
 
-    public MoltenLiquid(int durabilityModifier, int damageModifier, int priceModifier, int enchantModifier)
+    public MoltenLiquid(int durabilityModifier, int damageModifier, int priceModifier, int enchantModifier, Color color)
     {
         this.durabilityModifier = durabilityModifier;
         this.damageModifier = damageModifier;
         this.priceModifier = priceModifier;
         this.enchantModifier = enchantModifier;
+        this.color = color;
     }
 
     public MoltenLiquid(List<Mineral> minerals)
@@ -44,5 +47,27 @@ public class MoltenLiquid
         this.damageModifier = damageModifier;
         this.priceModifier = priceModifier;
         this.enchantModifier = enchantModifier;
+        this.color = AverageColorFromTexture(minerals);
+    }
+
+    private Color AverageColorFromTexture(List<Mineral> minerals)
+    {
+        int total = minerals.Count;
+        float r = 0;
+        float g = 0;
+        float b = 0;
+        foreach (Mineral mineral in minerals)
+        {
+            Color color = mineral.AverageColorFromTexture();
+            r += color.r;
+            g += color.g;
+            b += color.b;
+        }
+        return new Color(r / total,g / total,b / total, 255);
+    }
+
+    public Color GetColor()
+    {
+        return color;
     }
 }

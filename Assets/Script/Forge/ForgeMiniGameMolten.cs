@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ForgeMiniGameMolten : MonoBehaviour
@@ -18,7 +19,7 @@ public class ForgeMiniGameMolten : MonoBehaviour
         }
 
         instance = this;
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     #endregion
 
@@ -28,6 +29,7 @@ public class ForgeMiniGameMolten : MonoBehaviour
     [SerializeField] internal MoldController moldController;
 
     [SerializeField] private Button burnButton;
+    [SerializeField] private Image imageColorMinerals;
     private bool gameStarted = false;
 
     // Score
@@ -104,7 +106,11 @@ public class ForgeMiniGameMolten : MonoBehaviour
     private void MolteMinerals()
     {
         MoltenLiquid moltenLiquid = new MoltenLiquid(mineralsToMolten);
+        imageColorMinerals.color = moltenLiquid.GetColor();
+        CurrentMoltenMinerals.SetMoltenLiquid(moltenLiquid);
+        Debug.Log(imageColorMinerals.color);
         SelectedItem.instance.LoseDroppedItem();
+        ScenesManager.instance.LoadScene(ScenesManager.Scene.PourringScene);
         //Debug.Log(moltenLiquid.ToString());
     }
 }
