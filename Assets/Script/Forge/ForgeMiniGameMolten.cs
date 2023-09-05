@@ -108,9 +108,7 @@ public class ForgeMiniGameMolten : MonoBehaviour
         MoltenLiquid moltenLiquid = new MoltenLiquid(mineralsToMolten);
         imageColorMinerals.color = moltenLiquid.GetColor();
         CurrentMoltenMinerals.SetMoltenLiquid(moltenLiquid);
-        Debug.Log(imageColorMinerals.color);
         SelectedItem.instance.LoseDroppedItem();
         ScenesManager.instance.LoadScene(ScenesManager.Scene.PourringScene);
-        //Debug.Log(moltenLiquid.ToString());
     }
 }
