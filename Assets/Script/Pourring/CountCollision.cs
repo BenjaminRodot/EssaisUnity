@@ -7,9 +7,7 @@ public class CountCollision : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         count++;
-        Debug.Log(this.name + other.gameObject.name);
     }
-
 
     public int GetCount()
     {

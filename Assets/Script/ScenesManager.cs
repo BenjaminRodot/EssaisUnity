@@ -24,7 +24,8 @@ public class ScenesManager : MonoBehaviour
     {
         Scene1,
         ForgeScene1,
-        PourringScene
+        PourringScene,
+        BladeShapingScene
     }
 
     public void LoadScene(Scene scene)

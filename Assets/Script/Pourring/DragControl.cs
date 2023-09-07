@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class TestDrag : MonoBehaviour
+public class DragControl : MonoBehaviour
 {
+    [SerializeField] internal ForgeMiniGamePourring forgeMiniGamePourring;
+
     [SerializeField] private float maxYrange = 4f;
     Vector3 difference = Vector3.zero;
-    private bool droped = false;
+    private bool droped = true;
+    private bool wasDragOnce = false;
     [SerializeField] private float speed = 0.1f;
     [SerializeField] private GameObject crucible;
 
@@ -22,6 +25,12 @@ public class TestDrag : MonoBehaviour
         pos.x = 0;
         pos.y = Mathf.Clamp(pos.y, -maxYrange, 0);
         transform.localPosition = pos;
+
+        if (!wasDragOnce)
+        {
+            wasDragOnce = true;
+            forgeMiniGamePourring.timerScript.StartCountdown();
+        }
     }
 
     private void OnMouseUp()
@@ -39,7 +48,6 @@ public class TestDrag : MonoBehaviour
                 droped = false;
             }
         }
-
         crucible.transform.localEulerAngles = new Vector3(0,0, -45 + transform.localPosition.y * (90/4f));
     }
 }

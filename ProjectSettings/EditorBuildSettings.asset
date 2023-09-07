@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/PourringScene.unity
     guid: fd143d429140a8e4fbae8247ff8a2030
+  - enabled: 1
+    path: Assets/Scenes/BladeShapingScene.unity
+    guid: f170c034e7d01124a9f3a83b4dccc710
   m_configObjects: {}
