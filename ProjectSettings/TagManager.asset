@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Slide
   - Particle
+  - Activator
   layers:
   - Default
   - TransparentFX
